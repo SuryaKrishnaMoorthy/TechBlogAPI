@@ -20,5 +20,8 @@
     "morgan": "^1.9.0",
     "nodemon": "^1.17.5",
     "uuid": "^3.3.2"
+  },
+  "dependencies": {
+    "cors": "^2.8.4"
   }
 }

@@ -4,6 +4,9 @@ const port = process.env.PORT || 3000;
 const uuid = require("uuid/v4");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
+const cors = require('cors')
+
+app.use(cors());
 
 app.disable('x-powered-by');
 if(process.env.NODE_ENV === "development") app.use(morgan("dev"));
