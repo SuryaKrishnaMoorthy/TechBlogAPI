@@ -29,7 +29,7 @@ const createBlogPost = (body) => {
   let response;
   if (!body.title) {
     errors.push({
-      status: 404,
+      status: 400,
       message: `Please provide title`
     });
     response = {
