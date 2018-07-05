@@ -2,48 +2,51 @@ const model = require("../models/blog");
 
 const getBlogPosts = (req, res, next) => {
   const blogPost = model.getBlogPosts();
-  res.status(200).send({
-    data: blogPost
-  });
+  res.status(200).json(
+    blogPost
+  );
 };
 
 const getBlogPost = (req, res, next) => {
   const blogPost = model.getBlogPost(req.params.blogPost_id);
-  if (blogPost.errors) next({
-    status: 400,
-    message: blogPost.errors
-  });
-  res.status(200).send({
-    data: blogPost
-  });
+  if (blogPost.id) {
+    res.status(200).send({
+      blogPost
+    });
+  } else {
+    next(blogPost.errors[0]);
+  }
 };
 
 const createBlogPost = (req, res, next) => {
   const blogPost = model.createBlogPost(req.body);
-  if (blogPost.errors) next({
-    status: 400,
-    message: blogPost.errors
-  });
-  res.status(201).send({
-    data: blogPost
-  });
+  if (blogPost.id) {
+    res.status(201).send({
+      blogPost
+    });
+  } else {
+    next(blogPost.errors[0]);
+  }
 };
 
 const updateBlogPost = (req, res, next) => {
-  const blogPost = model.updateBlogPost(req.params.blogPost_id, req.body);
-  if (blogPost.errors) next({
-    status: 400,
-    message: blogPost.errors
-  })
-  res.status(200).send({
-    data: blogPost
-  });
+  const response = model.updateBlogPost(req.params.blogPost_id, req.body);
+  if (response.errors) {
+    next(response.errors[0]);
+  } else {
+    res.status(200).json(
+      response
+    );
+  }
 };
 
 const deleteBlogPost = (req, res, next) => {
-  const blogPost = model.deleteBlogPost(req.params.blogPost_id);
-  if (blogPost.errors) next(blogPost.errors[0]);
-  res.status(204).send();
+  const response = model.deleteBlogPost(req.params.blogPost_id);
+  if (response.id) {
+    res.status(204).send();
+  } else {
+    next(response.errors[0]);
+  }
 };
 
 module.exports = {
